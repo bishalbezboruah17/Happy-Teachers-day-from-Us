@@ -64,7 +64,7 @@
   .note-title{font-weight:700; font-size:1.3rem; margin:0 0 6px; color:#d6336c;}
   .quote{
     font-style:italic;
-    font-size:8px;
+    font-size:0.9rem;
     line-height:1.3;
     margin:6px 0 8px;
     color:#333;
@@ -76,6 +76,8 @@
     text-align:center;
     font-weight:600;
     margin-top:12px;
+    font-size:0.95rem;
+    word-wrap:break-word;
     animation:glow 3s infinite alternate;
   }
   @keyframes glow{
@@ -91,12 +93,24 @@
   .hint{
     font-size:.9rem;
     opacity:.8;
-    margin-top:30px; /* more gap below envelope */
+    margin-top:30px;
   }
 
   .confetti, .flower{position:fixed; top:-12px; pointer-events:none;}
   .flower{font-size:22px;}
   .developed{position:absolute; right:10px; bottom:6px; font-size:.8rem; font-style:italic; color:#444; opacity:.7;}
+
+  /* 📱 Mobile adjustments */
+  @media (max-width: 480px) {
+    h1 { font-size: 1.4rem; }
+    .sub { font-size: 0.85rem; }
+    .envelope { width: 95%; height: 220px; }
+    .letter { padding: 14px; font-size: 0.9rem; }
+    .note-title { font-size: 1.1rem; }
+    .quote { font-size: 0.75rem; }
+    .note-body { font-size: 0.85rem; }
+    .signed { font-size: 0.85rem; margin-top: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -132,7 +146,7 @@
 <script>
   const quotes = [
     "Your guidance is the light that leads us forward.",
-     "Your words have the power to shape futures.",
+    "Your words have the power to shape futures.",
     "Knowledge may fade, but your influence remains forever.",
     "Teachers plant dreams and nurture hope.",
     "A teacher’s love makes the hardest lesson easy.",
