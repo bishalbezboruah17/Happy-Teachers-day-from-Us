@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>To Our Respected Ma’am, With Gratitude</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2f3542;
+    --accent:#ff7aa2;
+    --gold:#f6c667;
+    --paper:#fffdf8;
+    --envelope:#ffe1ec;
+    --envelope-edge:#ffb6cf;
+  }
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: linear-gradient(135deg,#f9e0e9,#dde9ff);
+    font-family:'Poppins', sans-serif;
+    color:var(--ink);
+    overflow:hidden;
+  }
+  .wrap{width:min(720px, 92vw); text-align:center; position:relative;}
+  h1{font-family:'Playfair Display', serif; font-size:1.9rem; margin:0 0 6px; color:#3f3d56;}
+  .sub{font-size:.98rem; opacity:.85; margin-bottom:18px;}
+
+  .card{background:rgba(255,255,255,.9); border-radius:22px; padding:20px; box-shadow:0 12px 40px rgba(0,0,0,.15); backdrop-filter: blur(4px);}
+  .row{margin:10px 0 18px}
+  input[type="text"]{padding:12px; border:2px solid #ffd3e0; border-radius:12px; min-width:240px; font-size:1rem;}
+  input[type="text"]:focus{border-color:var(--accent);}
+  .btn{margin-top:10px; border:0; padding:12px 18px; border-radius:12px; background:linear-gradient(135deg, var(--accent), #ff90b4); color:white; font-weight:600; cursor:pointer;}
+
+  .stage{display:grid; place-items:center;}
+  .envelope{width:min(460px, 90%); height:260px; position:relative; perspective:1200px; cursor:pointer; filter:drop-shadow(0 12px 20px rgba(0,0,0,.2));}
+  .pocket, .flap, .letter{position:absolute; inset:0; border-radius:18px;}
+  .pocket{background:linear-gradient(#ffdce8, var(--envelope)); clip-path:polygon(0 100%, 0 28%, 50% 60%, 100% 28%, 100% 100%); border:2px solid var(--envelope-edge);}
+  .body{position:absolute; inset:auto 0 0 0; height:72%; background:linear-gradient(var(--envelope), #ffeaf3); border:2px solid var(--envelope-edge); border-top:0; border-radius:0 0 18px 18px; z-index:2;}
+  .flap{background:linear-gradient(var(--envelope), #ffd3e6); clip-path:polygon(0 0, 100% 0, 50% 62%); transform-origin:50% 0%; transform:rotateX(0deg); border:2px solid var(--envelope-edge); border-bottom:0; z-index:3; transition:transform 900ms cubic-bezier(.2,.8,.2,1);}
+  .seal{position:absolute; left:50%; top:44%; transform:translate(-50%,-50%); width:56px; height:56px; background:radial-gradient(circle at 30% 30%, #fff, #ffd39a 30%, #f6b24b 60%, #e2992d 100%); border-radius:50%; z-index:4;}
+  .seal::after{content:"💛"; position:absolute; inset:0; display:grid; place-items:center; font-size:22px;}
+  
+  .letter{
+    background:var(--paper);
+    width:86%;
+    height:84%;
+    left:50%;
+    top:0%;
+    transform:translate(-50%,18%);
+    border-radius:14px;
+    box-shadow:0 10px 26px rgba(0,0,0,.18);
+    transition:transform 900ms cubic-bezier(.2,.8,.2,1);
+    padding:20px;
+    text-align:left;
+    font-family:'Playfair Display', serif;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .note-title{font-weight:700; font-size:1.3rem; margin:0 0 6px; color:#d6336c;}
+  .quote{
+    font-style:italic;
+    font-size:8px;
+    line-height:1.3;
+    margin:6px 0 8px;
+    color:#333;
+    border-left:3px solid var(--gold);
+    padding-left:8px;
+  }
+  .note-body{line-height:1.6; font-size:1rem; margin:6px 0;}
+  .signed{
+    text-align:center;
+    font-weight:600;
+    margin-top:12px;
+    animation:glow 3s infinite alternate;
+  }
+  @keyframes glow{
+    0%{color:#ff4d4d; text-shadow:0 0 5px #ff4d4d,0 0 10px #ff4d4d;}
+    25%{color:#ffcc00; text-shadow:0 0 5px #ffcc00,0 0 10px #ffcc00;}
+    50%{color:#33cc33; text-shadow:0 0 5px #33cc33,0 0 10px #33cc33;}
+    75%{color:#3399ff; text-shadow:0 0 5px #3399ff,0 0 10px #3399ff;}
+    100%{color:#ff66cc; text-shadow:0 0 5px #ff66cc,0 0 10px #ff66cc;}
+  }
+  .envelope.open .flap{transform:rotateX(-170deg)}
+  .envelope.open .letter{transform:translate(-50%,-10%)} 
+
+  .hint{
+    font-size:.9rem;
+    opacity:.8;
+    margin-top:30px; /* more gap below envelope */
+  }
+
+  .confetti, .flower{position:fixed; top:-12px; pointer-events:none;}
+  .flower{font-size:22px;}
+  .developed{position:absolute; right:10px; bottom:6px; font-size:.8rem; font-style:italic; color:#444; opacity:.7;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>To Our Respected Ma’am, With Gratitude</h1>
+    <div class="sub">A small digital letter on Teacher’s Day</div>
+    <div class="card">
+      <div class="row" id="inputRow">
+        <input id="maamName" type="text" placeholder="Please Enter Your Name Ma’am"/>
+        <br>
+        <button class="btn" onclick="prepareLetter()">Prepare Letter</button>
+      </div>
+      <div class="stage">
+        <div class="envelope" id="envelope" onclick="toggleOpen()">
+          <div class="pocket"></div>
+          <div class="body"></div>
+          <div class="flap"></div>
+          <div class="seal"></div>
+          <div class="letter" id="letter">
+            <div>
+              <div class="note-title" id="letterTitle"></div>
+              <div class="quote" id="quote"></div>
+              <div class="note-body" id="personal"></div>
+            </div>
+            <div class="signed">With love, Vandana • Himakhi • Bishal</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Tap the envelope to open the letter</div>
+    </div>
+    <div class="developed">Developed by Bishal</div>
+  </div>
+<script>
+  const quotes = [
+    "Your guidance is the light that leads us forward.",
+     "Your words have the power to shape futures.",
+    "Knowledge may fade, but your influence remains forever.",
+    "Teachers plant dreams and nurture hope.",
+    "A teacher’s love makes the hardest lesson easy.",
+    "You don’t just teach, you inspire."
+  ];
+  let prepared=false;
+  function prepareLetter(){
+    const name=document.getElementById('maamName').value||'Our Ma’am';
+    document.getElementById('letterTitle').textContent="Happy Teacher’s Day "+name;
+    const q=quotes[Math.floor(Math.random()*quotes.length)];
+    document.getElementById('quote').textContent="“"+q+"”";
+    document.getElementById('personal').textContent="We are deeply grateful for your guidance, inspiration, and care.";
+    document.getElementById('inputRow').style.display='none';
+    prepared=true;
+  }
+  function toggleOpen(){
+    if(!prepared)return;
+    const env=document.getElementById('envelope');
+    const opening=!env.classList.contains('open');
+    env.classList.toggle('open');
+    if(opening){confettiBlast(); flowerBlast();}
+  }
+  function confettiBlast(){
+    for(let i=0;i<80;i++){
+      const bit=document.createElement('div');
+      bit.className='confetti';
+      bit.style.left=(Math.random()*window.innerWidth)+'px';
+      bit.style.width=10+"px"; bit.style.height=10+"px";
+      bit.style.background=`hsl(${Math.random()*360},85%,55%)`;
+      document.body.appendChild(bit);
+      const endY=window.innerHeight+40;
+      const drift=(Math.random()*120-60);
+      const duration=2000+Math.random()*2000;
+      bit.animate([{transform:'translate(0,0)'},{transform:`translate(${drift}px,${endY}px)`}],{duration,iterations:1});
+      setTimeout(()=>bit.remove(),duration);
+    }
+  }
+  function flowerBlast(){
+    const flowers=['🌸','🌷','💮','🌺','🌻'];
+    for(let i=0;i<40;i++){
+      const fl=document.createElement('div');
+      fl.className='flower';
+      fl.textContent=flowers[Math.floor(Math.random()*flowers.length)];
+      fl.style.left=(Math.random()*window.innerWidth)+'px';
+      fl.style.position="fixed"; fl.style.top="-20px";
+      document.body.appendChild(fl);
+      const endY=window.innerHeight+40;
+      const drift=(Math.random()*100-50);
+      const duration=2500+Math.random()*2500;
+      fl.animate([{transform:'translate(0,0)'},{transform:`translate(${drift}px,${endY}px)`}],{duration,iterations:1});
+      setTimeout(()=>fl.remove(),duration);
+    }
+  }
+</script>
+</body>
+</html>
